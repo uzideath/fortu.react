@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router'; // ✅ Import useRouter
 import React, { useState } from 'react';
 import {
   View,
@@ -11,6 +12,8 @@ import {
 } from 'react-native';
 
 const RegisterScreen = () => {
+  const router = useRouter(); // ✅ Use router for navigation
+
   const [formData, setFormData] = useState({
     nombres: '',
     apellidos: '',
@@ -110,27 +113,28 @@ const RegisterScreen = () => {
 
           {/* Social Login Buttons */}
           <TouchableOpacity style={styles.socialButton}>
-            <Image 
+            <Image
               source={{ uri: 'https://www.google.com/favicon.ico' }}
               style={styles.socialIcon}
             />
-            <Text style={styles.socialButtonText}>Continuar con google</Text>
+            <Text style={styles.socialButtonText}>Continuar con Google</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.socialButton}>
-            <Image 
+            <Image
               source={{ uri: 'https://www.apple.com/favicon.ico' }}
               style={styles.socialIcon}
             />
-            <Text style={styles.socialButtonText}>Continuar AppleID</Text>
+            <Text style={styles.socialButtonText}>Continuar con Apple ID</Text>
           </TouchableOpacity>
 
           {/* Login Link */}
           <View style={styles.loginContainer}>
             <Text style={styles.loginText}>¿Ya tienes una cuenta en Fortu?</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push('/login')}>
               <Text style={styles.loginLink}>Inicia Sesión</Text>
             </TouchableOpacity>
+
           </View>
         </View>
       </ScrollView>

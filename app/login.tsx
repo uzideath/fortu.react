@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router'; // ✅ Import useRouter for navigation
 import React, { useState } from 'react';
 import {
   View,
@@ -12,6 +13,8 @@ import {
 import { BlurView } from '@react-native-community/blur';
 
 const LoginScreen = () => {
+  const router = useRouter(); // ✅ Use router for navigation
+
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -83,7 +86,7 @@ const LoginScreen = () => {
             source={{ uri: 'https://www.google.com/favicon.ico' }}
             style={styles.socialIcon}
           />
-          <Text style={styles.socialButtonText}>Continuar con google</Text>
+          <Text style={styles.socialButtonText}>Continuar con Google</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.socialButton}>
@@ -91,10 +94,11 @@ const LoginScreen = () => {
             source={{ uri: 'https://www.apple.com/favicon.ico' }}
             style={styles.socialIcon}
           />
-          <Text style={styles.socialButtonText}>Continuar AppleID</Text>
+          <Text style={styles.socialButtonText}>Continuar con Apple ID</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.createAccountButton}>
+        {/* "Crear una cuenta" - Redirects to Register */}
+        <TouchableOpacity style={styles.createAccountButton} onPress={() => router.push('/register')}>
           <Text style={styles.createAccountText}>Crear una cuenta</Text>
         </TouchableOpacity>
       </View>
@@ -117,7 +121,7 @@ const LoginScreen = () => {
             <View style={styles.errorIcon}>
               <Text style={styles.errorX}>×</Text>
             </View>
-            <Text style={styles.errorTitle}>¡Ups! sa no es tu clave</Text>
+            <Text style={styles.errorTitle}>¡Ups! Esa no es tu clave</Text>
             <View style={styles.modalButtons}>
               <TouchableOpacity
                 style={styles.modalButton}
