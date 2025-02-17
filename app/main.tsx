@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router';
+import React from 'react';
 import {
   View,
   Text,
@@ -7,12 +7,28 @@ import {
   SafeAreaView,
   Dimensions,
 } from 'react-native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+// Define the stack parameter list
+type RootStackParamList = {
+  Welcome: undefined;
+  Register: undefined;
+  Login: undefined;
+};
+
+// Define the navigation prop type
+type WelcomeScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Welcome'
+>;
+
+type Props = {
+  navigation: WelcomeScreenNavigationProp;
+};
 
 const { width } = Dimensions.get('window');
 
-export default function WelcomeScreen() {
-  const router = useRouter(); // 👈 Use router for navigation
-
+const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
   const renderBackgroundPattern = () => {
     const patterns = [];
     for (let i = 0; i < 20; i++) {
@@ -54,14 +70,14 @@ export default function WelcomeScreen() {
 
         <TouchableOpacity
           style={styles.startButton}
-          onPress={() => router.push('/register')} // ✅ Use router.push() for navigation
+          onPress={() => navigation.navigate('Register')}
         >
           <Text style={styles.startButtonText}>Comenzar</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -125,3 +141,4 @@ const styles = StyleSheet.create({
   },
 });
 
+export default WelcomeScreen;
