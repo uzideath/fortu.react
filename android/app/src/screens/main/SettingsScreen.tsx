@@ -32,7 +32,14 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) => {
   }
 
   const handleOptionPress = (option: string): void => {
-    Alert.alert(`Opción seleccionada: ${option}`, `Has seleccionado la opción ${option}`)
+    switch (option) {
+      case "Tu info":
+        navigation.navigate("UserInfo")
+        break
+      default:
+        Alert.alert(`Opción seleccionada: ${option}`, `Has seleccionado la opción ${option}`)
+        break
+    }
   }
 
   return (

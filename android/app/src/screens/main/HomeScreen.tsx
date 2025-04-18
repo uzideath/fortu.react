@@ -20,6 +20,7 @@ import { colors } from "../../styles/colors"
 import { formatCurrency } from "../../utils/helpers"
 import { authService } from "../../services/auth"
 import { api } from "../../services/api"
+import { getCurrentAvatar } from "../../services/avatarService"
 
 type HomeScreenNavigationProp = StackNavigationProp<MainStackParamList, "Home">
 
@@ -32,6 +33,14 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [userName, setUserName] = useState<string>("Nombre de usuario")
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [avatarSource, setAvatarSource] = useState<any>(getCurrentAvatar().source)
+
+  // Función para actualizar el avatar (sincrónica)
+  const updateAvatar = useCallback(() => {
+    // Usar la función sincrónica para obtener el avatar actual
+    const currentAvatar = getCurrentAvatar()
+    setAvatarSource(currentAvatar.source)
+  }, [])
 
   // Función para cargar los datos
   const fetchData = useCallback(async () => {
@@ -63,18 +72,20 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   // Cargar datos al montar el componente
   useEffect(() => {
-    fetchData()
-  }, [fetchData])
+    updateAvatar() // Actualizar avatar inmediatamente
+    fetchData() // Cargar otros datos de forma asíncrona
+  }, [updateAvatar, fetchData])
 
   // Recargar datos cada vez que la pantalla vuelve a estar en foco
   useFocusEffect(
     useCallback(() => {
-      console.log("HomeScreen en foco, recargando datos...")
-      fetchData()
+      console.log("HomeScreen en foco, actualizando avatar...")
+      updateAvatar() // Actualizar avatar inmediatamente
+      fetchData() // Cargar otros datos de forma asíncrona
       return () => {
         // Cleanup opcional
       }
-    }, [fetchData]),
+    }, [updateAvatar, fetchData]),
   )
 
   const handleMenuPress = () => {
@@ -225,7 +236,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             <View style={styles.profileContainer}>
               <Text style={styles.profileLabel}>{userName}</Text>
               <View style={styles.profileImageContainer}>
-                <Image source={require("../../assets/images/profile_placeholder.jpg")} style={styles.profileImage} />
+                <Image source={avatarSource} style={styles.profileImage} />
               </View>
             </View>
           </View>

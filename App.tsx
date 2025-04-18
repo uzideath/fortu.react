@@ -17,6 +17,7 @@ import AddPaymentMethodScreen from './android/app/src/screens/main/AddPaymentMet
 import PaymentSectionScreen from './android/app/src/screens/main/PaymentSectionScreen';
 // Importar la nueva pantalla de ajustes
 import SettingsScreen from './android/app/src/screens/main/SettingsScreen';
+import UserInfoScreen from './android/app/src/screens/main/UserInfoScreen';
 
 // Importar pantallas de juegos y loterías
 import GamesHomeScreen from './android/app//src/screens/games/GamesHomeScreen';
@@ -64,6 +65,7 @@ const MainStackScreen: React.FC = () => {
       <MainStack.Screen name="AddPaymentMethod" component={AddPaymentMethodScreen} />
       <MainStack.Screen name="PaymentSection" component={PaymentSectionScreen} />
       <MainStack.Screen name="Settings" component={SettingsScreen} />
+      <MainStack.Screen name="UserInfo" component={UserInfoScreen} />
       <MainStack.Screen name="Games" component={GamesStackScreen} />
     </MainStack.Navigator>
   )

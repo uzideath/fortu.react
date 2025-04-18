@@ -1,7 +1,8 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
+import { useFocusEffect } from "@react-navigation/native"
 import {
   View,
   Text,
@@ -19,6 +20,7 @@ import type { MainStackParamList } from "../../types"
 import { colors } from "../../styles/colors"
 import { formatCurrency } from "../../utils/helpers"
 import { authService } from "../../services/auth"
+import { getCurrentAvatar } from "../../services/avatarService"
 
 type MenuScreenNavigationProp = StackNavigationProp<MainStackParamList, "Menu">
 
@@ -29,23 +31,45 @@ interface MenuScreenProps {
 const MenuScreen: React.FC<MenuScreenProps> = ({ navigation }) => {
   const [balance, setBalance] = useState<string>("87600")
   const [userName, setUserName] = useState<string>("Nombre de usuario")
+  const [avatarSource, setAvatarSource] = useState<any>(getCurrentAvatar().source)
 
-  useEffect(() => {
-    // Obtener datos del usuario
-    const fetchUserData = async () => {
-      try {
-        const user = await authService.getCurrentUser()
-        if (user) {
-          setUserName(user.name)
-          setBalance(user.balance)
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error)
+  // Función para cargar los datos del usuario
+  const fetchUserData = useCallback(async () => {
+    try {
+      const user = await authService.getCurrentUser()
+      if (user) {
+        setUserName(user.name)
+        setBalance(user.balance)
       }
+    } catch (error) {
+      console.error("Error fetching user data:", error)
     }
-
-    fetchUserData()
   }, [])
+
+  // Función para actualizar el avatar (sincrónica)
+  const updateAvatar = useCallback(() => {
+    // Usar la función sincrónica para obtener el avatar actual
+    const currentAvatar = getCurrentAvatar()
+    setAvatarSource(currentAvatar.source)
+  }, [])
+
+  // Cargar datos al montar el componente
+  useEffect(() => {
+    updateAvatar() // Actualizar avatar inmediatamente
+    fetchUserData() // Cargar otros datos de forma asíncrona
+  }, [updateAvatar, fetchUserData])
+
+  // Recargar datos cada vez que la pantalla vuelve a estar en foco
+  useFocusEffect(
+    useCallback(() => {
+      console.log("MenuScreen en foco, actualizando avatar...")
+      updateAvatar() // Actualizar avatar inmediatamente
+      fetchUserData() // Cargar otros datos de forma asíncrona
+      return () => {
+        // Cleanup opcional
+      }
+    }, [updateAvatar, fetchUserData]),
+  )
 
   const handlePaymentMethodsPress = (): void => {
     navigation.navigate("PaymentSection")
@@ -55,7 +79,6 @@ const MenuScreen: React.FC<MenuScreenProps> = ({ navigation }) => {
     navigation.navigate("Home")
   }
 
-  // Añadir la función handleSettingsPress con logs para depuración
   const handleSettingsPress = (): void => {
     console.log("Navegando a Settings...")
     try {
@@ -86,7 +109,7 @@ const MenuScreen: React.FC<MenuScreenProps> = ({ navigation }) => {
             <View style={styles.profileContainer}>
               <Text style={styles.profileLabel}>{userName}</Text>
               <View style={styles.profileImageContainer}>
-                <Image source={require("../../assets/images/profile_placeholder.jpg")} style={styles.profileImage} />
+                <Image source={avatarSource} style={styles.profileImage} />
               </View>
             </View>
           </View>
@@ -170,7 +193,6 @@ const MenuScreen: React.FC<MenuScreenProps> = ({ navigation }) => {
                 />
               </TouchableOpacity>
 
-              {/* Modificar el TouchableOpacity para el botón de Ajustes */}
               <TouchableOpacity style={styles.menuOption} onPress={handleSettingsPress}>
                 <View style={styles.menuOptionContent}>
                   <View style={styles.menuOptionIconContainer}>
@@ -346,7 +368,7 @@ const styles = StyleSheet.create({
   },
   bannerImage: {
     width: "100%",
-    height: 220, // Aumentado de 180 a 220 para mayor altura
+    height: 220,
     borderRadius: 15,
   },
   paginationContainer: {
