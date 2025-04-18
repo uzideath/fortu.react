@@ -12,6 +12,7 @@ import {
   Image,
   ImageBackground,
   StatusBar,
+  Alert,
 } from "react-native"
 import type { StackNavigationProp } from "@react-navigation/stack"
 import type { MainStackParamList } from "../../types"
@@ -52,6 +53,18 @@ const MenuScreen: React.FC<MenuScreenProps> = ({ navigation }) => {
 
   const handleHomePress = (): void => {
     navigation.navigate("Home")
+  }
+
+  // Añadir la función handleSettingsPress con logs para depuración
+  const handleSettingsPress = (): void => {
+    console.log("Navegando a Settings...")
+    try {
+      navigation.navigate("Settings")
+      console.log("Navegación a Settings completada")
+    } catch (error) {
+      console.error("Error al navegar a Settings:", error)
+      Alert.alert("Error de navegación", "No se pudo navegar a la pantalla de Ajustes.")
+    }
   }
 
   return (
@@ -157,7 +170,8 @@ const MenuScreen: React.FC<MenuScreenProps> = ({ navigation }) => {
                 />
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.menuOption}>
+              {/* Modificar el TouchableOpacity para el botón de Ajustes */}
+              <TouchableOpacity style={styles.menuOption} onPress={handleSettingsPress}>
                 <View style={styles.menuOptionContent}>
                   <View style={styles.menuOptionIconContainer}>
                     <Image

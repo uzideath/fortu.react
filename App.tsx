@@ -15,10 +15,12 @@ import HomeScreen from './android/app/src/screens/main/HomeScreen';
 import MenuScreen from './android/app/src/screens/main/MenuScreen';
 import AddPaymentMethodScreen from './android/app/src/screens/main/AddPaymentMethodScreen';
 import PaymentSectionScreen from './android/app/src/screens/main/PaymentSectionScreen';
+// Importar la nueva pantalla de ajustes
+import SettingsScreen from './android/app/src/screens/main/SettingsScreen';
 
 // Importar pantallas de juegos y loterías
-import GamesHomeScreen from './android/app/src/screens/games/GamesHomeScreen';
-import LotteriesListScreen from './android/app/src/screens/games/LotteriesListScreen';
+import GamesHomeScreen from './android/app//src/screens/games/GamesHomeScreen';
+import LotteriesListScreen from './android/app//src/screens/games/LotteriesListScreen';
 import BetValueScreen from './android/app/src/screens/games/BetValueScreen';
 import GroupDrawScreen from './android/app/src/screens/games/GroupDrawScreen';
 import GroupDetailScreen from './android/app/src/screens/games/GroupDetailScreen';
@@ -47,8 +49,8 @@ const GamesStackScreen: React.FC = () => {
       <GamesStack.Screen name="BetSuccess" component={BetSuccessScreen} />
       <GamesStack.Screen name="TicketDetails" component={TicketDetailsScreen as React.ComponentType<any>} />
     </GamesStack.Navigator>
-  );
-};
+  )
+}
 
 const MainStackScreen: React.FC = () => {
   return (
@@ -61,10 +63,11 @@ const MainStackScreen: React.FC = () => {
       <MainStack.Screen name="Menu" component={MenuScreen} />
       <MainStack.Screen name="AddPaymentMethod" component={AddPaymentMethodScreen} />
       <MainStack.Screen name="PaymentSection" component={PaymentSectionScreen} />
+      <MainStack.Screen name="Settings" component={SettingsScreen} />
       <MainStack.Screen name="Games" component={GamesStackScreen} />
     </MainStack.Navigator>
-  );
-};
+  )
+}
 
 const App: React.FC = () => {
   return (
@@ -85,7 +88,7 @@ const App: React.FC = () => {
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
-  );
-};
+  )
+}
 
 export default App;
