@@ -11,12 +11,12 @@ import {
   ImageBackground,
   StatusBar,
   Switch,
-  Alert,
   ScrollView,
+  Image,
 } from "react-native"
 import type { StackNavigationProp } from "@react-navigation/stack"
 import type { MainStackParamList } from "../../types"
-import { Image } from "react-native"
+import SuccessModal from "../../components/modals/SuccessModal"
 
 type NotificationsScreenNavigationProp = StackNavigationProp<MainStackParamList, "Notifications">
 
@@ -32,6 +32,9 @@ const NotificationsScreen: React.FC<NotificationsScreenProps> = ({ navigation })
   const [soundAlerts, setSoundAlerts] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
+  // Estado para el modal de éxito
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false)
+
   const handleBack = (): void => {
     navigation.goBack()
   }
@@ -44,11 +47,10 @@ const NotificationsScreen: React.FC<NotificationsScreenProps> = ({ navigation })
       // Por ahora, simularemos una actualización exitosa
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
-      Alert.alert("Cambios guardados", "Tus preferencias de notificaciones han sido actualizadas.", [
-        { text: "OK", onPress: () => navigation.goBack() },
-      ])
+      // Mostrar el modal de éxito en lugar de Alert
+      setShowSuccessModal(true)
     } catch (error) {
-      Alert.alert("Error", "No se pudieron guardar los cambios. Inténtalo de nuevo.")
+      console.error("Error al guardar las preferencias:", error)
     } finally {
       setIsLoading(false)
     }
@@ -158,6 +160,18 @@ const NotificationsScreen: React.FC<NotificationsScreenProps> = ({ navigation })
             <Text style={styles.saveButtonText}>{isLoading ? "Guardando..." : "Guardar cambios"}</Text>
           </TouchableOpacity>
         </ScrollView>
+
+        {/* Modal de éxito personalizado */}
+        <SuccessModal
+          visible={showSuccessModal}
+          title="¡Cambios guardados!"
+          message="Tus preferencias de notificaciones han sido actualizadas correctamente."
+          buttonText="Aceptar"
+          onClose={() => {
+            setShowSuccessModal(false)
+            navigation.goBack()
+          }}
+        />
       </ImageBackground>
     </SafeAreaView>
   )

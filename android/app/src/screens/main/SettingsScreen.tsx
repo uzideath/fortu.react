@@ -11,12 +11,12 @@ import {
   Image,
   ImageBackground,
   StatusBar,
-  Alert,
   Dimensions,
 } from "react-native"
 import type { StackNavigationProp } from "@react-navigation/stack"
 import type { MainStackParamList } from "../../types"
 import ConfirmationModal from "../../components/modals/ConfirmationModal"
+import InfoModal from "../../components/modals/InfoModal"
 
 const { width } = Dimensions.get("window")
 // Hacer las imágenes más pequeñas
@@ -31,6 +31,14 @@ interface SettingsScreenProps {
 const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) => {
   // Estado para controlar la visibilidad del modal de confirmación
   const [showLogoutModal, setShowLogoutModal] = useState<boolean>(false)
+
+  // Estado para controlar la visibilidad del modal informativo
+  const [showInfoModal, setShowInfoModal] = useState<boolean>(false)
+  const [infoModalData, setInfoModalData] = useState({
+    title: "",
+    message: "",
+    icon: "🔨",
+  })
 
   // Añadimos un console.log para verificar que el componente se está renderizando
   console.log("Renderizando SettingsScreen")
@@ -50,6 +58,16 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) => {
     })
   }
 
+  // Función para mostrar el modal informativo
+  const showComingSoonModal = (feature: string, icon = "🔨") => {
+    setInfoModalData({
+      title: `${feature} en desarrollo`,
+      message: `Estamos trabajando para habilitar muy pronto el servicio de ${feature.toLowerCase()}. ¡Gracias por tu paciencia!`,
+      icon,
+    })
+    setShowInfoModal(true)
+  }
+
   // Modificar la función handleOptionPress para manejar la opción "Cerrar sesión"
   const handleOptionPress = (option: string): void => {
     console.log(`Opción seleccionada: ${option}`)
@@ -67,12 +85,20 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) => {
         console.log("Navegando a Notifications")
         navigation.navigate("Notifications")
         break
+      case "Privacidad":
+        // Mostrar modal informativo para Privacidad
+        showComingSoonModal("Privacidad", "🔒")
+        break
+      case "Ayuda y soporte":
+        // Mostrar modal informativo para Ayuda y soporte
+        showComingSoonModal("Ayuda y soporte", "🛟")
+        break
       case "Cerrar sesión":
         // Mostrar el modal de confirmación personalizado
         setShowLogoutModal(true)
         break
       default:
-        Alert.alert(`Opción seleccionada: ${option}`, `Has seleccionado la opción ${option}`)
+        showComingSoonModal(option)
         break
     }
   }
@@ -176,6 +202,16 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) => {
           cancelText="Cancelar"
           onConfirm={handleLogout}
           onCancel={() => setShowLogoutModal(false)}
+        />
+
+        {/* Modal informativo para funcionalidades en desarrollo */}
+        <InfoModal
+          visible={showInfoModal}
+          title={infoModalData.title}
+          message={infoModalData.message}
+          buttonText="Entendido"
+          icon={infoModalData.icon}
+          onClose={() => setShowInfoModal(false)}
         />
       </ImageBackground>
     </SafeAreaView>
