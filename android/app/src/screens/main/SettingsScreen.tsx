@@ -35,7 +35,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) => {
     navigation.goBack()
   }
 
-  // Modificar la función handleOptionPress para navegar a la pantalla de seguridad
+  // Modificar la función handleOptionPress para manejar la opción "Cerrar sesión"
   const handleOptionPress = (option: string): void => {
     console.log(`Opción seleccionada: ${option}`)
 
@@ -47,6 +47,30 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) => {
       case "Seguridad":
         console.log("Navegando a Security")
         navigation.navigate("Security")
+        break
+      case "Notificaciones":
+        console.log("Navegando a Notifications")
+        navigation.navigate("Notifications")
+        break
+      case "Cerrar sesión":
+        console.log("Cerrando sesión y navegando a Login")
+        // Mostrar un diálogo de confirmación antes de cerrar sesión
+        Alert.alert("Cerrar sesión", "¿Estás seguro de que deseas cerrar sesión?", [
+          {
+            text: "Cancelar",
+            style: "cancel",
+          },
+          {
+            text: "Sí, cerrar sesión",
+            onPress: () => {
+              // Reiniciar la pila de navegación y establecer Login como pantalla inicial
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "Login" as any }],
+              })
+            },
+          },
+        ])
         break
       default:
         Alert.alert(`Opción seleccionada: ${option}`, `Has seleccionado la opción ${option}`)

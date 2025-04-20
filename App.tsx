@@ -28,6 +28,9 @@ import GroupDetailScreen from "./android/app/src/screens/games/GroupDetailScreen
 import BetSuccessScreen from "./android/app/src/screens/games/BetSuccessScreen"
 import TicketDetailsScreen from "./android/app/src/screens/games/TicketDetailsScreen"
 
+// Importar la nueva pantalla de notificaciones
+import NotificationsScreen from "./android/app/src/screens/main/NotificationsScreen"
+
 // Importar tipos
 import type { RootStackParamList, MainStackParamList, GamesStackParamList } from "./android/app/src/types"
 
@@ -70,6 +73,7 @@ const MainStackScreen: React.FC = () => {
       <MainStack.Screen name="Settings" component={SettingsScreen} />
       <MainStack.Screen name="UserInfo" component={UserInfoScreen} />
       <MainStack.Screen name="Security" component={SecurityScreen} />
+      <MainStack.Screen name="Notifications" component={NotificationsScreen} />
       <MainStack.Screen name="Games" component={GamesStackScreen} />
     </MainStack.Navigator>
   )

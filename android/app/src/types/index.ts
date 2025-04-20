@@ -86,6 +86,7 @@ export type MainStackParamList = {
   Settings: undefined
   UserInfo: undefined
   Security: undefined
+  Notifications: undefined
   Games: { screen?: string; params?: any }
 }
 
