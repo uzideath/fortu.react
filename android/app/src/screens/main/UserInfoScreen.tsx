@@ -13,23 +13,19 @@ import {
   StatusBar,
   TextInput,
   ScrollView,
-  Alert,
-  Modal,
-  Animated,
-  FlatList,
   Dimensions,
+  Animated,
+  Modal,
+  FlatList,
+  Alert,
 } from "react-native"
 import type { StackNavigationProp } from "@react-navigation/stack"
 import type { MainStackParamList } from "../../types"
-import {
-  saveSelectedAvatar,
-  getAllAvatars,
-  getSelectedAvatarId,
-  getAvatarById,
-  type AvatarInfo,
-} from "../../services/avatarService"
+import { saveSelectedAvatar, getAllAvatars, type AvatarInfo } from "../../services/avatarService"
 
-// Obtener el ancho de la pantalla para calcular tamaños
+// Importar el componente SuccessModal
+import SuccessModal from "../../components/modals/SuccessModal"
+
 const { width } = Dimensions.get("window")
 
 type UserInfoScreenNavigationProp = StackNavigationProp<MainStackParamList, "UserInfo">
@@ -38,7 +34,6 @@ interface UserInfoScreenProps {
   navigation: UserInfoScreenNavigationProp
 }
 
-// Añadir este tipo para las claves de fieldConfig
 type FieldName = "fullName" | "userId" | "idNumber" | "email" | "phone" | "department" | "city" | "birthDate" | "gender"
 
 const UserInfoScreen: React.FC<UserInfoScreenProps> = ({ navigation }) => {
@@ -75,6 +70,26 @@ const UserInfoScreen: React.FC<UserInfoScreenProps> = ({ navigation }) => {
 
   // Lista de avatares disponibles
   const [avatars, setAvatars] = useState<AvatarInfo[]>([])
+
+  // Estado para el modal de éxito
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false)
+
+  const getSelectedAvatarId = async (): Promise<string | null> => {
+    // This is a placeholder. Replace with your actual implementation.
+    return "avatar1"
+  }
+
+  const getAvatarById = (avatarId: string): AvatarInfo => {
+    const allAvatars = getAllAvatars()
+    const avatar = allAvatars.find((avatar) => avatar.id === avatarId)
+    return (
+      avatar || {
+        id: "avatar1",
+        source: require("../../assets/images/avatar1.png"),
+        name: "Avatar 1",
+      }
+    )
+  }
 
   // Cargar avatares y el avatar seleccionado al iniciar
   useEffect(() => {
@@ -156,7 +171,9 @@ const UserInfoScreen: React.FC<UserInfoScreenProps> = ({ navigation }) => {
     await saveSelectedAvatar(selectedAvatar)
 
     console.log("Datos a enviar al backend:", editableData)
-    Alert.alert("Cambios guardados", "Tu información ha sido actualizada correctamente.")
+
+    // Mostrar el modal de éxito
+    setShowSuccessModal(true)
   }
 
   // Función para abrir el modal de género con animación
@@ -520,6 +537,18 @@ const UserInfoScreen: React.FC<UserInfoScreenProps> = ({ navigation }) => {
             </View>
           </View>
         </Modal>
+
+        {/* Modal de éxito personalizado */}
+        <SuccessModal
+          visible={showSuccessModal}
+          title="¡Cambios guardados!"
+          message="Tu información ha sido actualizada correctamente."
+          buttonText="Aceptar"
+          onClose={() => {
+            setShowSuccessModal(false)
+            navigation.goBack()
+          }}
+        />
       </ImageBackground>
     </SafeAreaView>
   )
@@ -539,15 +568,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollViewContent: {
+    flexGrow: 1,
     paddingBottom: 40,
   },
   backButton: {
-    width: 60,
-    height: 60,
-    justifyContent: "center",
-    alignItems: "center",
     marginTop: 40,
     marginLeft: 20,
+    marginBottom: 20,
   },
   backButtonImage: {
     width: 40,
@@ -557,7 +584,6 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: "bold",
     color: "#3f3f3f",
-    marginTop: 20,
     marginBottom: 30,
     marginLeft: 30,
   },
@@ -674,7 +700,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-
+  readOnlyInput: {
+    backgroundColor: "#f5f5f5",
+    color: "#666666",
+  },
   // Estilos para el modal de fecha
   modalContainer: {
     flex: 1,
@@ -760,7 +789,6 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontWeight: "bold",
   },
-
   // Estilos minimalistas para el modal de género
   genderModalContent: {
     width: "80%",
@@ -825,12 +853,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
   },
-  // Añadir el estilo para campos no editables
-  readOnlyInput: {
-    backgroundColor: "#f5f5f5",
-    color: "#666666",
-  },
-
   // Estilos para el selector de avatar
   avatarModalContent: {
     width: "90%",
