@@ -15,6 +15,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Image,
 } from "react-native"
 import type { StackNavigationProp } from "@react-navigation/stack"
 import type { MainStackParamList } from "../../types"
@@ -93,9 +94,11 @@ const SecurityScreen: React.FC<SecurityScreenProps> = ({ navigation }) => {
           <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollViewContent}>
             {/* Botón de retroceso */}
             <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-              <View style={styles.backButtonCircle}>
-                <Text style={styles.backButtonText}>←</Text>
-              </View>
+              <Image
+                source={require("../../assets/images/back_button.png")}
+                style={styles.backButtonImage}
+                resizeMode="contain"
+              />
             </TouchableOpacity>
 
             {/* Título y subtítulo */}
@@ -196,19 +199,12 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginLeft: 20,
     marginBottom: 20,
-  },
-  backButtonCircle: {
     width: 40,
     height: 40,
-    borderRadius: 20,
-    backgroundColor: colors.primary,
-    justifyContent: "center",
-    alignItems: "center",
   },
-  backButtonText: {
-    color: colors.white,
-    fontSize: 20,
-    fontWeight: "bold",
+  backButtonImage: {
+    width: 40,
+    height: 40,
   },
   headerContainer: {
     paddingHorizontal: 30,
