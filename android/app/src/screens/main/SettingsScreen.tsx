@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import { useState } from "react"
 import {
   View,
   Text,
@@ -15,6 +16,7 @@ import {
 } from "react-native"
 import type { StackNavigationProp } from "@react-navigation/stack"
 import type { MainStackParamList } from "../../types"
+import ConfirmationModal from "../../components/modals/ConfirmationModal"
 
 const { width } = Dimensions.get("window")
 // Hacer las imágenes más pequeñas
@@ -27,12 +29,25 @@ interface SettingsScreenProps {
 }
 
 const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) => {
+  // Estado para controlar la visibilidad del modal de confirmación
+  const [showLogoutModal, setShowLogoutModal] = useState<boolean>(false)
+
   // Añadimos un console.log para verificar que el componente se está renderizando
   console.log("Renderizando SettingsScreen")
 
   const handleBack = (): void => {
     console.log("Botón de retroceso presionado en SettingsScreen")
     navigation.goBack()
+  }
+
+  // Función para manejar el cierre de sesión
+  const handleLogout = (): void => {
+    console.log("Cerrando sesión y navegando a Login")
+    // Reiniciar la pila de navegación y establecer Login como pantalla inicial
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "Login" as any }],
+    })
   }
 
   // Modificar la función handleOptionPress para manejar la opción "Cerrar sesión"
@@ -53,24 +68,8 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) => {
         navigation.navigate("Notifications")
         break
       case "Cerrar sesión":
-        console.log("Cerrando sesión y navegando a Login")
-        // Mostrar un diálogo de confirmación antes de cerrar sesión
-        Alert.alert("Cerrar sesión", "¿Estás seguro de que deseas cerrar sesión?", [
-          {
-            text: "Cancelar",
-            style: "cancel",
-          },
-          {
-            text: "Sí, cerrar sesión",
-            onPress: () => {
-              // Reiniciar la pila de navegación y establecer Login como pantalla inicial
-              navigation.reset({
-                index: 0,
-                routes: [{ name: "Login" as any }],
-              })
-            },
-          },
-        ])
+        // Mostrar el modal de confirmación personalizado
+        setShowLogoutModal(true)
         break
       default:
         Alert.alert(`Opción seleccionada: ${option}`, `Has seleccionado la opción ${option}`)
@@ -167,6 +166,17 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) => {
           {/* Espacio adicional para compensar el header */}
           <View style={styles.bottomSpacer} />
         </View>
+
+        {/* Modal de confirmación personalizado */}
+        <ConfirmationModal
+          visible={showLogoutModal}
+          title="Cerrar sesión"
+          message="¿Estás seguro de que deseas cerrar sesión de tu cuenta?"
+          confirmText="Sí, cerrar sesión"
+          cancelText="Cancelar"
+          onConfirm={handleLogout}
+          onCancel={() => setShowLogoutModal(false)}
+        />
       </ImageBackground>
     </SafeAreaView>
   )
