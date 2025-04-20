@@ -27,14 +27,26 @@ interface SettingsScreenProps {
 }
 
 const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) => {
+  // Añadimos un console.log para verificar que el componente se está renderizando
+  console.log("Renderizando SettingsScreen")
+
   const handleBack = (): void => {
+    console.log("Botón de retroceso presionado en SettingsScreen")
     navigation.goBack()
   }
 
+  // Modificar la función handleOptionPress para navegar a la pantalla de seguridad
   const handleOptionPress = (option: string): void => {
+    console.log(`Opción seleccionada: ${option}`)
+
     switch (option) {
       case "Tu info":
+        console.log("Navegando a UserInfo")
         navigation.navigate("UserInfo")
+        break
+      case "Seguridad":
+        console.log("Navegando a Security")
+        navigation.navigate("Security")
         break
       default:
         Alert.alert(`Opción seleccionada: ${option}`, `Has seleccionado la opción ${option}`)
@@ -74,7 +86,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) => {
 
             <View style={styles.optionsGrid}>
               <View style={styles.optionsRow}>
-                <TouchableOpacity onPress={() => handleOptionPress("Tu info")}>
+                <TouchableOpacity onPress={() => handleOptionPress("Tu info")} testID="user-info-button">
                   <Image
                     source={require("../../assets/images/tu_info_icon.png")}
                     style={styles.optionImage}
@@ -82,7 +94,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) => {
                   />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => handleOptionPress("Seguridad")}>
+                <TouchableOpacity onPress={() => handleOptionPress("Seguridad")} testID="security-button">
                   <Image
                     source={require("../../assets/images/seguridad_icon.png")}
                     style={styles.optionImage}

@@ -77,7 +77,7 @@ export type RootStackParamList = {
   MainApp: undefined
 }
 
-// Actualizar MainStackParamList para incluir la pantalla de UserInfo
+// Asegúrate de que MainStackParamList incluya Security y UserInfo
 export type MainStackParamList = {
   Home: undefined
   Menu: undefined
@@ -85,6 +85,7 @@ export type MainStackParamList = {
   PaymentSection: undefined
   Settings: undefined
   UserInfo: undefined
+  Security: undefined
   Games: { screen?: string; params?: any }
 }
 

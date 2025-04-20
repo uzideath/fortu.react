@@ -38,7 +38,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   // Función para actualizar el avatar (sincrónica)
   const updateAvatar = useCallback(() => {
     // Usar la función sincrónica para obtener el avatar actual
+    console.log("HomeScreen: Actualizando avatar...")
     const currentAvatar = getCurrentAvatar()
+    console.log("HomeScreen: Avatar actualizado:", currentAvatar.id)
     setAvatarSource(currentAvatar.source)
   }, [])
 
@@ -72,6 +74,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   // Cargar datos al montar el componente
   useEffect(() => {
+    console.log("HomeScreen: Efecto de montaje ejecutado")
     updateAvatar() // Actualizar avatar inmediatamente
     fetchData() // Cargar otros datos de forma asíncrona
   }, [updateAvatar, fetchData])
@@ -82,8 +85,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       console.log("HomeScreen en foco, actualizando avatar...")
       updateAvatar() // Actualizar avatar inmediatamente
       fetchData() // Cargar otros datos de forma asíncrona
+
       return () => {
         // Cleanup opcional
+        console.log("HomeScreen perdió el foco")
       }
     }, [updateAvatar, fetchData]),
   )

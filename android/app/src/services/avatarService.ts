@@ -85,6 +85,7 @@ export const getAvatarById = (id: string): AvatarInfo => {
 // NUEVA FUNCIÓN: Obtener el avatar actual de forma sincrónica
 export const getCurrentAvatar = (): AvatarInfo => {
   const currentId = getCurrentAvatarId()
+  console.log("getCurrentAvatar: ID actual:", currentId)
   return getAvatarById(currentId)
 }
 

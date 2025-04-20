@@ -79,11 +79,19 @@ const MenuScreen: React.FC<MenuScreenProps> = ({ navigation }) => {
     navigation.navigate("Home")
   }
 
+  // Modificamos esta función para añadir más logs y manejar posibles errores
   const handleSettingsPress = (): void => {
-    console.log("Navegando a Settings...")
+    console.log("Botón de ajustes presionado")
     try {
-      navigation.navigate("Settings")
-      console.log("Navegación a Settings completada")
+      // Verificamos que la pantalla esté definida en el navegador
+      if (navigation && navigation.navigate) {
+        console.log("Intentando navegar a Settings...")
+        navigation.navigate("Settings")
+        console.log("Navegación a Settings completada")
+      } else {
+        console.error("El objeto navigation o su método navigate no están disponibles")
+        Alert.alert("Error", "No se pudo navegar a la pantalla de Ajustes.")
+      }
     } catch (error) {
       console.error("Error al navegar a Settings:", error)
       Alert.alert("Error de navegación", "No se pudo navegar a la pantalla de Ajustes.")
@@ -193,7 +201,8 @@ const MenuScreen: React.FC<MenuScreenProps> = ({ navigation }) => {
                 />
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.menuOption} onPress={handleSettingsPress}>
+              {/* Añadimos un ID al botón de ajustes para identificarlo fácilmente */}
+              <TouchableOpacity style={styles.menuOption} onPress={handleSettingsPress} testID="settings-button">
                 <View style={styles.menuOptionContent}>
                   <View style={styles.menuOptionIconContainer}>
                     <Image

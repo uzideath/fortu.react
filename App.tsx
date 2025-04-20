@@ -1,39 +1,39 @@
-import type React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { StatusBar } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import type React from "react"
+import { NavigationContainer } from "@react-navigation/native"
+import { createStackNavigator } from "@react-navigation/stack"
+import { StatusBar } from "react-native"
+import { SafeAreaProvider } from "react-native-safe-area-context"
 
 // Importar pantallas de autenticación
-import SplashScreen from './android/app/src/screens/auth/SplashScreen';
-import LoginScreen from './android/app/src/screens/auth/LoginScreen';
-import RegisterScreen from './android/app/src/screens/auth/RegisterScreen';
-import WelcomeScreen from './android/app/src/screens/auth/WelcomeScreen';
+import SplashScreen from "./android/app/src/screens/auth/SplashScreen"
+import LoginScreen from "./android/app/src/screens/auth/LoginScreen"
+import RegisterScreen from "./android/app/src/screens/auth/RegisterScreen"
+import WelcomeScreen from "./android/app/src/screens/auth/WelcomeScreen"
 
 // Importar pantallas principales
-import HomeScreen from './android/app/src/screens/main/HomeScreen';
-import MenuScreen from './android/app/src/screens/main/MenuScreen';
-import AddPaymentMethodScreen from './android/app/src/screens/main/AddPaymentMethodScreen';
-import PaymentSectionScreen from './android/app/src/screens/main/PaymentSectionScreen';
-// Importar la nueva pantalla de ajustes
-import SettingsScreen from './android/app/src/screens/main/SettingsScreen';
-import UserInfoScreen from './android/app/src/screens/main/UserInfoScreen';
+import HomeScreen from "./android/app/src/screens/main/HomeScreen"
+import MenuScreen from "./android/app/src/screens/main/MenuScreen"
+import AddPaymentMethodScreen from "./android/app/src/screens/main/AddPaymentMethodScreen"
+import PaymentSectionScreen from "./android/app/src/screens/main/PaymentSectionScreen"
+import SettingsScreen from "./android/app/src/screens/main/SettingsScreen"
+import UserInfoScreen from "./android/app/src/screens/main/UserInfoScreen"
+import SecurityScreen from "./android/app/src/screens/main/SecurityScreen"
 
 // Importar pantallas de juegos y loterías
-import GamesHomeScreen from './android/app//src/screens/games/GamesHomeScreen';
-import LotteriesListScreen from './android/app//src/screens/games/LotteriesListScreen';
-import BetValueScreen from './android/app/src/screens/games/BetValueScreen';
-import GroupDrawScreen from './android/app/src/screens/games/GroupDrawScreen';
-import GroupDetailScreen from './android/app/src/screens/games/GroupDetailScreen';
-import BetSuccessScreen from './android/app/src/screens/games/BetSuccessScreen';
-import TicketDetailsScreen from './android/app/src/screens/games/TicketDetailsScreen';
+import GamesHomeScreen from "./android/app/src/screens/games/GamesHomeScreen"
+import LotteriesListScreen from "./android/app/src/screens/games/LotteriesListScreen"
+import BetValueScreen from "./android/app/src/screens/games/BetValueScreen"
+import GroupDrawScreen from "./android/app/src/screens/games/GroupDrawScreen"
+import GroupDetailScreen from "./android/app/src/screens/games/GroupDetailScreen"
+import BetSuccessScreen from "./android/app/src/screens/games/BetSuccessScreen"
+import TicketDetailsScreen from "./android/app/src/screens/games/TicketDetailsScreen"
 
 // Importar tipos
-import type { RootStackParamList, MainStackParamList, GamesStackParamList } from './android/app/src/types';
+import type { RootStackParamList, MainStackParamList, GamesStackParamList } from "./android/app/src/types"
 
-const Stack = createStackNavigator<RootStackParamList>();
-const MainStack = createStackNavigator<MainStackParamList>();
-const GamesStack = createStackNavigator<GamesStackParamList>();
+const Stack = createStackNavigator<RootStackParamList>()
+const MainStack = createStackNavigator<MainStackParamList>()
+const GamesStack = createStackNavigator<GamesStackParamList>()
 
 const GamesStackScreen: React.FC = () => {
   return (
@@ -54,6 +54,9 @@ const GamesStackScreen: React.FC = () => {
 }
 
 const MainStackScreen: React.FC = () => {
+  // Añadimos un console.log para verificar que MainStackScreen se está renderizando
+  console.log("Renderizando MainStackScreen con todas las pantallas principales")
+
   return (
     <MainStack.Navigator
       screenOptions={{
@@ -66,6 +69,7 @@ const MainStackScreen: React.FC = () => {
       <MainStack.Screen name="PaymentSection" component={PaymentSectionScreen} />
       <MainStack.Screen name="Settings" component={SettingsScreen} />
       <MainStack.Screen name="UserInfo" component={UserInfoScreen} />
+      <MainStack.Screen name="Security" component={SecurityScreen} />
       <MainStack.Screen name="Games" component={GamesStackScreen} />
     </MainStack.Navigator>
   )
@@ -93,4 +97,4 @@ const App: React.FC = () => {
   )
 }
 
-export default App;
+export default App
