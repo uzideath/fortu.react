@@ -1,4 +1,3 @@
-import type React from "react"
 import { NavigationContainer } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
 import { StatusBar } from "react-native"
@@ -18,6 +17,8 @@ import PaymentSectionScreen from "./android/app/src/screens/main/PaymentSectionS
 import SettingsScreen from "./android/app/src/screens/main/SettingsScreen"
 import UserInfoScreen from "./android/app/src/screens/main/UserInfoScreen"
 import SecurityScreen from "./android/app/src/screens/main/SecurityScreen"
+import NotificationsScreen from "./android/app/src/screens/main/NotificationsScreen"
+import LoadPaymentMethodScreen from "./android/app/src/screens/main/LoadPaymentMethodScreen"
 
 // Importar pantallas de juegos y loterías
 import GamesHomeScreen from "./android/app/src/screens/games/GamesHomeScreen"
@@ -28,9 +29,6 @@ import GroupDetailScreen from "./android/app/src/screens/games/GroupDetailScreen
 import BetSuccessScreen from "./android/app/src/screens/games/BetSuccessScreen"
 import TicketDetailsScreen from "./android/app/src/screens/games/TicketDetailsScreen"
 
-// Importar la nueva pantalla de notificaciones
-import NotificationsScreen from "./android/app/src/screens/main/NotificationsScreen"
-
 // Importar tipos
 import type { RootStackParamList, MainStackParamList, GamesStackParamList } from "./android/app/src/types"
 
@@ -38,7 +36,8 @@ const Stack = createStackNavigator<RootStackParamList>()
 const MainStack = createStackNavigator<MainStackParamList>()
 const GamesStack = createStackNavigator<GamesStackParamList>()
 
-const GamesStackScreen: React.FC = () => {
+// Componente para las pantallas de juegos
+const GamesStackScreen = () => {
   return (
     <GamesStack.Navigator
       screenOptions={{
@@ -51,15 +50,13 @@ const GamesStackScreen: React.FC = () => {
       <GamesStack.Screen name="GroupDraw" component={GroupDrawScreen} />
       <GamesStack.Screen name="GroupDetail" component={GroupDetailScreen} />
       <GamesStack.Screen name="BetSuccess" component={BetSuccessScreen} />
-      <GamesStack.Screen name="TicketDetails" component={TicketDetailsScreen as React.ComponentType<any>} />
+      <GamesStack.Screen name="TicketDetails" component={TicketDetailsScreen} />
     </GamesStack.Navigator>
   )
 }
 
-const MainStackScreen: React.FC = () => {
-  // Añadimos un console.log para verificar que MainStackScreen se está renderizando
-  console.log("Renderizando MainStackScreen con todas las pantallas principales")
-
+// Componente para las pantallas principales
+const MainStackScreen = () => {
   return (
     <MainStack.Navigator
       screenOptions={{
@@ -74,12 +71,14 @@ const MainStackScreen: React.FC = () => {
       <MainStack.Screen name="UserInfo" component={UserInfoScreen} />
       <MainStack.Screen name="Security" component={SecurityScreen} />
       <MainStack.Screen name="Notifications" component={NotificationsScreen} />
+      <MainStack.Screen name="LoadPaymentMethod" component={LoadPaymentMethodScreen} />
       <MainStack.Screen name="Games" component={GamesStackScreen} />
     </MainStack.Navigator>
   )
 }
 
-const App: React.FC = () => {
+// Componente principal de la aplicación
+const App = () => {
   return (
     <SafeAreaProvider>
       <NavigationContainer>

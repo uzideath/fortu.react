@@ -101,6 +101,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     navigation.navigate("AddPaymentMethod")
   }
 
+  // Modificar la función handleLoadPress en HomeScreen.tsx
+  const handleLoadPress = () => {
+    navigation.navigate("LoadPaymentMethod")
+  }
+
   // Modificar la función getCardLogo para simplificarla y hacerla más robusta
   const getCardLogo = (type: string | undefined) => {
     console.log("HomeScreen: Obteniendo logo para tipo:", type)
@@ -257,7 +262,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               <Text style={styles.actionText}>Menu</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.actionButton}>
+            {/* Y actualizar el botón Cargar */}
+            <TouchableOpacity style={styles.actionButton} onPress={handleLoadPress}>
               <Image
                 source={require("../../assets/images/Cargar.png")}
                 style={styles.actionIconImage}

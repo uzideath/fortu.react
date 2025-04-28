@@ -79,6 +79,11 @@ const MenuScreen: React.FC<MenuScreenProps> = ({ navigation }) => {
     navigation.navigate("Home")
   }
 
+  // Modificar la función handleLoadPress en MenuScreen.tsx
+  const handleLoadPress = () => {
+    navigation.navigate("LoadPaymentMethod")
+  }
+
   // Modificamos esta función para añadir más logs y manejar posibles errores
   const handleSettingsPress = (): void => {
     console.log("Botón de ajustes presionado")
@@ -133,7 +138,8 @@ const MenuScreen: React.FC<MenuScreenProps> = ({ navigation }) => {
               <Text style={styles.actionText}>Menu</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.actionButton}>
+            {/* Y actualizar el botón Cargar */}
+            <TouchableOpacity style={styles.actionButton} onPress={handleLoadPress}>
               <Image
                 source={require("../../assets/images/Cargar.png")}
                 style={styles.actionIconImage}

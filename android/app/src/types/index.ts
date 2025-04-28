@@ -87,6 +87,7 @@ export type MainStackParamList = {
   UserInfo: undefined
   Security: undefined
   Notifications: undefined
+  LoadPaymentMethod: undefined // Nueva pantalla añadida
   Games: { screen?: string; params?: any }
 }
 
