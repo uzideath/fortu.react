@@ -72,31 +72,29 @@ const MenuScreen: React.FC<MenuScreenProps> = ({ navigation }) => {
   )
 
   const handlePaymentMethodsPress = (): void => {
-    navigation.navigate("PaymentSection")
+    // Cambiado de PaymentSection a AddPaymentMethod
+    navigation.navigate("AddPaymentMethod")
+  }
+
+  // Nueva función para navegar a LoadPaymentMethod
+  const handleLoadPaymentMethod = (): void => {
+    navigation.navigate("LoadPaymentMethod")
   }
 
   const handleHomePress = (): void => {
     navigation.navigate("Home")
   }
 
-  // Modificar la función handleLoadPress en MenuScreen.tsx
-  const handleLoadPress = () => {
-    navigation.navigate("LoadPaymentMethod")
+  const handleTicketsPress = (): void => {
+    // Navegar a la pantalla de movimientos
+    navigation.navigate("Movements")
   }
 
-  // Modificamos esta función para añadir más logs y manejar posibles errores
   const handleSettingsPress = (): void => {
-    console.log("Botón de ajustes presionado")
+    console.log("Navegando a Settings...")
     try {
-      // Verificamos que la pantalla esté definida en el navegador
-      if (navigation && navigation.navigate) {
-        console.log("Intentando navegar a Settings...")
-        navigation.navigate("Settings")
-        console.log("Navegación a Settings completada")
-      } else {
-        console.error("El objeto navigation o su método navigate no están disponibles")
-        Alert.alert("Error", "No se pudo navegar a la pantalla de Ajustes.")
-      }
+      navigation.navigate("Settings")
+      console.log("Navegación a Settings completada")
     } catch (error) {
       console.error("Error al navegar a Settings:", error)
       Alert.alert("Error de navegación", "No se pudo navegar a la pantalla de Ajustes.")
@@ -138,8 +136,8 @@ const MenuScreen: React.FC<MenuScreenProps> = ({ navigation }) => {
               <Text style={styles.actionText}>Menu</Text>
             </TouchableOpacity>
 
-            {/* Y actualizar el botón Cargar */}
-            <TouchableOpacity style={styles.actionButton} onPress={handleLoadPress}>
+            {/* Modificado para usar handleLoadPaymentMethod */}
+            <TouchableOpacity style={styles.actionButton} onPress={handleLoadPaymentMethod}>
               <Image
                 source={require("../../assets/images/Cargar.png")}
                 style={styles.actionIconImage}
@@ -157,7 +155,7 @@ const MenuScreen: React.FC<MenuScreenProps> = ({ navigation }) => {
               <Text style={styles.actionText}>Retirar</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity style={styles.actionButton} onPress={handleTicketsPress}>
               <Image
                 source={require("../../assets/images/Tiquetes.png")}
                 style={styles.actionIconImage}
@@ -207,8 +205,7 @@ const MenuScreen: React.FC<MenuScreenProps> = ({ navigation }) => {
                 />
               </TouchableOpacity>
 
-              {/* Añadimos un ID al botón de ajustes para identificarlo fácilmente */}
-              <TouchableOpacity style={styles.menuOption} onPress={handleSettingsPress} testID="settings-button">
+              <TouchableOpacity style={styles.menuOption} onPress={handleSettingsPress}>
                 <View style={styles.menuOptionContent}>
                   <View style={styles.menuOptionIconContainer}>
                     <Image

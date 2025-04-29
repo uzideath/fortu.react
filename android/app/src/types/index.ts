@@ -89,6 +89,7 @@ export type MainStackParamList = {
   Notifications: undefined
   LoadPaymentMethod: undefined // Nueva pantalla añadida
   Games: { screen?: string; params?: any }
+  Movements: undefined // Añadida la pantalla de movimientos
 }
 
 export type GamesStackParamList = {
@@ -100,3 +101,19 @@ export type GamesStackParamList = {
   BetSuccess: undefined
   TicketDetails: { ticketId?: string } | undefined
 }
+
+// Interfaz para los movimientos (añadida para la nueva pantalla)
+export interface Movement {
+  id: string
+  type: "group" | "chance" | "lottery" | "international"
+  title: string
+  date: string
+  amount: string
+  logo?: any
+  groupId?: string
+}
+
+// Props para las pantallas principales
+import type { StackScreenProps } from "@react-navigation/stack"
+
+export type MainScreenProps<T extends keyof MainStackParamList> = StackScreenProps<MainStackParamList, T>

@@ -38,9 +38,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   // Función para actualizar el avatar (sincrónica)
   const updateAvatar = useCallback(() => {
     // Usar la función sincrónica para obtener el avatar actual
-    console.log("HomeScreen: Actualizando avatar...")
     const currentAvatar = getCurrentAvatar()
-    console.log("HomeScreen: Avatar actualizado:", currentAvatar.id)
     setAvatarSource(currentAvatar.source)
   }, [])
 
@@ -74,7 +72,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   // Cargar datos al montar el componente
   useEffect(() => {
-    console.log("HomeScreen: Efecto de montaje ejecutado")
     updateAvatar() // Actualizar avatar inmediatamente
     fetchData() // Cargar otros datos de forma asíncrona
   }, [updateAvatar, fetchData])
@@ -85,10 +82,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       console.log("HomeScreen en foco, actualizando avatar...")
       updateAvatar() // Actualizar avatar inmediatamente
       fetchData() // Cargar otros datos de forma asíncrona
-
       return () => {
         // Cleanup opcional
-        console.log("HomeScreen perdió el foco")
       }
     }, [updateAvatar, fetchData]),
   )
@@ -101,9 +96,14 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     navigation.navigate("AddPaymentMethod")
   }
 
-  // Modificar la función handleLoadPress en HomeScreen.tsx
-  const handleLoadPress = () => {
+  // Nueva función para navegar a LoadPaymentMethod
+  const handleLoadPaymentMethod = () => {
     navigation.navigate("LoadPaymentMethod")
+  }
+
+  const handleTicketsPress = () => {
+    // Navegar a la pantalla de movimientos
+    navigation.navigate("Movements")
   }
 
   // Modificar la función getCardLogo para simplificarla y hacerla más robusta
@@ -262,8 +262,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               <Text style={styles.actionText}>Menu</Text>
             </TouchableOpacity>
 
-            {/* Y actualizar el botón Cargar */}
-            <TouchableOpacity style={styles.actionButton} onPress={handleLoadPress}>
+            {/* Modificado para usar handleLoadPaymentMethod */}
+            <TouchableOpacity style={styles.actionButton} onPress={handleLoadPaymentMethod}>
               <Image
                 source={require("../../assets/images/Cargar.png")}
                 style={styles.actionIconImage}
@@ -281,7 +281,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               <Text style={styles.actionText}>Retirar</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity style={styles.actionButton} onPress={handleTicketsPress}>
               <Image
                 source={require("../../assets/images/Tiquetes.png")}
                 style={styles.actionIconImage}
