@@ -90,6 +90,7 @@ export type MainStackParamList = {
   LoadPaymentMethod: undefined // Nueva pantalla añadida
   Games: { screen?: string; params?: any }
   Movements: undefined // Añadida la pantalla de movimientos
+  MovementsDetail: undefined // Añadida la pantalla de detalle de movimientos
 }
 
 export type GamesStackParamList = {

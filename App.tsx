@@ -19,7 +19,8 @@ import UserInfoScreen from "./android/app/src/screens/main/UserInfoScreen"
 import SecurityScreen from "./android/app/src/screens/main/SecurityScreen"
 import NotificationsScreen from "./android/app/src/screens/main/NotificationsScreen"
 import LoadPaymentMethodScreen from "./android/app/src/screens/main/LoadPaymentMethodScreen"
-import MovementsScreen from "./android/app/src/screens/main/MovementsScreen" // Importar la nueva pantalla
+import MovementsScreen from "./android/app/src/screens/main/MovementsScreen" // Importar la pantalla de movimientos
+import MovementsDetailScreen from "./android/app/src/screens/main/MovementsDetailScreen" // Importar la pantalla de detalle de movimientos
 
 // Importar pantallas de juegos y loterías
 import GamesHomeScreen from "./android/app/src/screens/games/GamesHomeScreen"
@@ -74,6 +75,7 @@ const MainStackScreen = () => {
       <MainStack.Screen name="Notifications" component={NotificationsScreen} />
       <MainStack.Screen name="LoadPaymentMethod" component={LoadPaymentMethodScreen} />
       <MainStack.Screen name="Movements" component={MovementsScreen} />
+      <MainStack.Screen name="MovementsDetail" component={MovementsDetailScreen} />
       <MainStack.Screen name="Games" component={GamesStackScreen} />
     </MainStack.Navigator>
   )

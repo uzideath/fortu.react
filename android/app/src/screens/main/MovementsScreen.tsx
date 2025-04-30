@@ -215,7 +215,7 @@ const MovementsScreen: React.FC<MainScreenProps<"Movements">> = ({ navigation })
             showsVerticalScrollIndicator={false}
           />
 
-          <TouchableOpacity style={styles.viewMoreButton}>
+          <TouchableOpacity style={styles.viewMoreButton} onPress={() => navigation.navigate("MovementsDetail")}>
             <Text style={styles.viewMoreText}>Ver más movimientos</Text>
           </TouchableOpacity>
         </SafeAreaView>
