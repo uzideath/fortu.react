@@ -2,7 +2,17 @@
 
 import type React from "react"
 import { useState } from "react"
-import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground, StatusBar, FlatList } from "react-native"
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ImageBackground,
+  StatusBar,
+  FlatList,
+  Alert,
+} from "react-native"
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 import type { GamesScreenProps } from "src/types"
 
@@ -45,7 +55,17 @@ const GamesList: React.FC<GamesScreenProps<"GamesList">> = ({ navigation }) => {
   // Renderizar un ítem de juego
   const renderGameItem = ({ item }: { item: any }) => {
     return (
-      <TouchableOpacity style={styles.gameCard} onPress={() => navigation.navigate("GameDetail", { gameId: item.id })}>
+      <TouchableOpacity
+        style={styles.gameCard}
+        onPress={() => {
+          // Mostrar un mensaje de que esta funcionalidad está en desarrollo
+          Alert.alert(
+            "Funcionalidad en desarrollo",
+            `Los detalles para ${item.name} estarán disponibles próximamente.`,
+            [{ text: "Entendido", style: "default" }],
+          )
+        }}
+      >
         <View style={styles.gameInfo}>
           <Text style={styles.gameName}>{item.name}</Text>
           <Text style={styles.gameDescription}>{item.description}</Text>
