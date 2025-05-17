@@ -319,8 +319,8 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
       return
     }
 
-    // Navegar a la pantalla de bienvenida
-    navigation.navigate("Welcome")
+    // Navegar a la pantalla principal (MainApp) después del registro exitoso
+    navigation.navigate("MainApp")
   }
 
   const handleLogin = (): void => {
