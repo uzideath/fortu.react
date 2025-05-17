@@ -106,7 +106,7 @@ const MenuScreen: React.FC<MenuScreenProps> = ({ navigation }) => {
   )
 
   const handlePaymentMethodsPress = (): void => {
-    navigation.navigate("AddPaymentMethod")
+    navigation.navigate("Home")
   }
 
   const handleLoadPaymentMethod = (): void => {
