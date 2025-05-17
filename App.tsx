@@ -1,9 +1,7 @@
-import type React from "react"
 import { NavigationContainer } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
 import { StatusBar } from "react-native"
 import { SafeAreaProvider } from "react-native-safe-area-context"
-import { View, Text } from "react-native"
 
 // Importar provider de autenticación
 import { AuthProvider } from "./src/hooks/useAuth"
@@ -27,6 +25,12 @@ import SecurityScreen from "./src/screens/settings/SecurityScreen"
 import SettingsScreen from "./src/screens/settings/SettingsScreen"
 import NotificationsScreen from "./src/screens/settings/NotificationsScreen"
 
+// Importar pantallas de juegos
+import GamesHomeScreen from "./src/screens/games/GamesHomeScreen"
+import LotteriesListScreen from "./src/screens/games/LotteriesListScreen"
+import GamesList from "./src/screens/games/GamesList"
+import GroupDrawScreen from "./src/screens/games/GroupDrawScreen"
+
 // Importar tipos
 import type { RootStackParamList, MainStackParamList, GamesStackParamList } from "./src/types"
 
@@ -34,6 +38,7 @@ const Stack = createStackNavigator<RootStackParamList>()
 const MainStack = createStackNavigator<MainStackParamList>()
 const GamesStack = createStackNavigator<GamesStackParamList>()
 
+=======
 const GamesHomeScreen: React.FC = () => {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -46,12 +51,21 @@ const GamesNavigator = () => {
   return (
     <GamesStack.Navigator initialRouteName="GamesHome" screenOptions={{ headerShown: false }}>
       <GamesStack.Screen name="GamesHome" component={GamesHomeScreen} />
+      <GamesStack.Screen name="LotteriesList" component={LotteriesListScreen} />
+      <GamesStack.Screen name="GamesList" component={GamesList} />
+      <GamesStack.Screen name="GroupDraw" component={GroupDrawScreen} />
     </GamesStack.Navigator>
   )
 }
 
 const MainAppNavigator = () => {
   return (
+    <MainStack.Navigator
+      initialRouteName="Games"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
     <MainStack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
       <MainStack.Screen name="Home" component={HomeScreen} />
       <MainStack.Screen name="Menu" component={MenuScreen} />

@@ -161,15 +161,11 @@ const GamesHomeScreen: React.FC<GamesScreenProps<"GamesHome">> = ({ navigation }
           {/* Header con logo, campana y avatar */}
           <View style={[styles.header, { marginTop: insets.top }]}>
             <TouchableOpacity onPress={handleMenuPress} style={styles.logoContainer}>
-              <Image source={require("src/assets/images/menu_icon.png")} style={styles.logoIcon} resizeMode="contain" />
+              <Image source={require("src/assets/images/Menu.png")} style={styles.logoIcon} resizeMode="contain" />
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.bellContainer}>
-              <Image
-                source={require("src/assets/images/notification_icon.png")}
-                style={styles.bellIcon}
-                resizeMode="contain"
-              />
+              <Image source={require("src/assets/images/campana.png")} style={styles.bellIcon} resizeMode="contain" />
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.avatarContainer}>
