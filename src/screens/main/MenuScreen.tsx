@@ -114,7 +114,8 @@ const MenuScreen: React.FC<MenuScreenProps> = ({ navigation }) => {
   }
 
   const handleHomePress = (): void => {
-    navigation.navigate("Home")
+    // Navegar al navegador Games, que automáticamente mostrará GamesHome como pantalla inicial
+    navigation.navigate("Games")
   }
 
   const handleTicketsPress = (): void => {
