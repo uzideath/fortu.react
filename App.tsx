@@ -3,6 +3,9 @@ import { createStackNavigator } from "@react-navigation/stack"
 import { StatusBar } from "react-native"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 
+// Importar provider de autenticación
+import { AuthProvider } from "./src/hooks/useAuth"
+
 // Importar pantallas de autenticación
 import SplashScreen from "./src/screens/auth/SplashScreen"
 import LoginScreen from "./src/screens/auth/LoginScreen"
@@ -35,25 +38,26 @@ const Stack = createStackNavigator<RootStackParamList>()
 const MainStack = createStackNavigator<MainStackParamList>()
 const GamesStack = createStackNavigator<GamesStackParamList>()
 
-// Componente para la navegación de juegos
+=======
+const GamesHomeScreen: React.FC = () => {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>Pantalla de Juegos</Text>
+    </View>
+  )
+}
+
 const GamesNavigator = () => {
   return (
-    <GamesStack.Navigator
-      initialRouteName="GamesHome"
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
+    <GamesStack.Navigator initialRouteName="GamesHome" screenOptions={{ headerShown: false }}>
       <GamesStack.Screen name="GamesHome" component={GamesHomeScreen} />
       <GamesStack.Screen name="LotteriesList" component={LotteriesListScreen} />
       <GamesStack.Screen name="GamesList" component={GamesList} />
       <GamesStack.Screen name="GroupDraw" component={GroupDrawScreen} />
-      {/* Aquí se pueden agregar más pantallas de juegos */}
     </GamesStack.Navigator>
   )
 }
 
-// Componente para la navegación principal de la app
 const MainAppNavigator = () => {
   return (
     <MainStack.Navigator
@@ -62,6 +66,7 @@ const MainAppNavigator = () => {
         headerShown: false,
       }}
     >
+    <MainStack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
       <MainStack.Screen name="Home" component={HomeScreen} />
       <MainStack.Screen name="Menu" component={MenuScreen} />
       <MainStack.Screen name="AddPaymentMethod" component={AddPaymentMethodScreen} />
@@ -76,25 +81,21 @@ const MainAppNavigator = () => {
   )
 }
 
-// Componente principal de la aplicación
 const App = () => {
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <StatusBar barStyle="light-content" backgroundColor="#033e93" />
-        <Stack.Navigator
-          initialRouteName="Splash"
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen name="Splash" component={SplashScreen} />
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Register" component={RegisterScreen} />
-          <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-          <Stack.Screen name="MainApp" component={MainAppNavigator} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <AuthProvider>
+        <NavigationContainer>
+          <StatusBar barStyle="light-content" backgroundColor="#033e93" />
+          <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Splash" component={SplashScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Register" component={RegisterScreen} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+            <Stack.Screen name="MainApp" component={MainAppNavigator} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </AuthProvider>
     </SafeAreaProvider>
   )
 }
