@@ -33,6 +33,7 @@ import GroupDrawScreen from "./src/screens/games/GroupDrawScreen"
 
 // Importar tipos
 import type { RootStackParamList, MainStackParamList, GamesStackParamList } from "./src/types"
+import { navigationRef } from "@/lib/navigation"
 
 const Stack = createStackNavigator<RootStackParamList>()
 const MainStack = createStackNavigator<MainStackParamList>()
@@ -70,7 +71,7 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <AuthProvider>
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef}>
           <StatusBar barStyle="light-content" backgroundColor="#033e93" />
           <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Splash" component={SplashScreen} />

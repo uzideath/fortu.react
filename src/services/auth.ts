@@ -20,10 +20,5 @@ export const loginService = async (email: string, password: string): Promise<Use
 };
 
 export const logoutService = async (): Promise<void> => {
-  try {
-    await api.post('/auth/logout');
-  } catch (e) {
-    console.warn('Error al hacer logout', e);
-  }
   await AsyncStorage.multiRemove(['accessToken', 'refreshToken']);
 };
