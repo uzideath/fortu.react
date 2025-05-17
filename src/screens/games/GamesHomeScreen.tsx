@@ -155,18 +155,17 @@ const GamesHomeScreen: React.FC<GamesScreenProps<"GamesHome">> = ({ navigation }
       style={styles.backgroundImage}
       resizeMode="cover"
     >
-      <StatusBar barStyle="light-content" backgroundColor="#2262CE" />
-      <SafeAreaView style={styles.container} edges={["top"]}>
+      <StatusBar barStyle="light-content" backgroundColor="#0b3e89" />
+      <SafeAreaView style={styles.safeArea} edges={["top"]}>
         <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
           {/* Header con logo, campana y avatar */}
           <View style={[styles.header, { marginTop: insets.top }]}>
-            <TouchableOpacity onPress={handleMenuPress} style={styles.logoContainer}>
+            <View style={styles.headerLeft}>
               <Image source={require("src/assets/images/Menu.png")} style={styles.logoIcon} resizeMode="contain" />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.bellContainer}>
-              <Image source={require("src/assets/images/campana.png")} style={styles.bellIcon} resizeMode="contain" />
-            </TouchableOpacity>
+              <TouchableOpacity style={styles.bellContainer}>
+                <Image source={require("src/assets/images/campana.png")} style={styles.bellIcon} resizeMode="contain" />
+              </TouchableOpacity>
+            </View>
 
             <TouchableOpacity style={styles.avatarContainer}>
               <Image
@@ -196,7 +195,7 @@ const GamesHomeScreen: React.FC<GamesScreenProps<"GamesHome">> = ({ navigation }
               horizontal
               pagingEnabled
               showsHorizontalScrollIndicator={false}
-              snapToInterval={width * 0.9 + 20}
+              snapToInterval={width * 0.9}
               decelerationRate="fast"
               contentContainerStyle={styles.bannerList}
               onScroll={handleSlideChange}
@@ -277,8 +276,10 @@ const GamesHomeScreen: React.FC<GamesScreenProps<"GamesHome">> = ({ navigation }
             </TouchableOpacity>
           </View>
 
-          {/* Espacio adicional al final */}
-          <View style={styles.bottomSpace} />
+          {/* Botón de soporte flotante */}
+          <TouchableOpacity style={styles.supportButton}>
+            <Image source={require("src/assets/images/campana.png")} style={styles.supportIcon} resizeMode="contain" />
+          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
     </ImageBackground>
@@ -291,7 +292,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-  container: {
+  safeArea: {
     flex: 1,
   },
   scrollView: {
@@ -304,22 +305,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
   },
-  logoContainer: {
-    width: 40,
-    height: 40,
-    justifyContent: "center",
+  headerLeft: {
+    flexDirection: "row",
     alignItems: "center",
   },
   logoIcon: {
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
     tintColor: "#FFFFFF",
   },
   bellContainer: {
-    width: 40,
-    height: 40,
-    justifyContent: "center",
-    alignItems: "center",
+    marginLeft: 15,
   },
   bellIcon: {
     width: 30,
@@ -340,8 +336,8 @@ const styles = StyleSheet.create({
   },
   greetingContainer: {
     paddingHorizontal: 20,
-    marginTop: 20,
-    marginBottom: 30,
+    marginTop: 10,
+    marginBottom: 20,
   },
   greetingText: {
     fontSize: 32,
@@ -362,14 +358,14 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   bannerList: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
   },
   bannerItemContainer: {
     width: width * 0.9,
-    height: 200,
-    marginHorizontal: 10,
+    height: 180,
     borderRadius: 20,
     overflow: "hidden",
+    marginRight: 20,
   },
   bannerImage: {
     width: "100%",
@@ -395,6 +391,7 @@ const styles = StyleSheet.create({
   },
   gameOptionsContainer: {
     paddingHorizontal: 20,
+    marginBottom: 80, // Espacio para el botón flotante
   },
   gameOptionCard: {
     flexDirection: "row",
@@ -418,26 +415,46 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     marginRight: 15,
-    tintColor: "#2262CE",
+    tintColor: "#0b3e89",
   },
   gameOptionText: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "500",
     color: "#333333",
   },
   gameOptionArrow: {
     width: 40,
     height: 40,
+    backgroundColor: "#2262CE",
+    borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
   },
   arrowIcon: {
+    width: 24,
+    height: 24,
+    tintColor: "#FFFFFF",
+  },
+  supportButton: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: "#2262CE",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  supportIcon: {
     width: 30,
     height: 30,
-    tintColor: "#2262CE",
-  },
-  bottomSpace: {
-    height: 50,
+    tintColor: "#FFFFFF",
   },
 })
 

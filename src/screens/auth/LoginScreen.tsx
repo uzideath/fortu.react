@@ -1,4 +1,7 @@
-import React, { useState, useRef } from "react"
+"use client"
+
+import type React from "react"
+import { useState, useRef } from "react"
 import {
   View,
   StyleSheet,
@@ -8,7 +11,6 @@ import {
   ScrollView,
   ImageBackground,
   StatusBar,
-  Dimensions,
 } from "react-native"
 import type { StackNavigationProp } from "@react-navigation/stack"
 import type { RootStackParamList } from "@/types"
@@ -29,7 +31,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [showLoginErrorModal, setShowLoginErrorModal] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>("¡Ups! Esa no es tu clave")
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  
+
   const scrollViewRef = useRef<ScrollView>(null)
 
   const handleForgotPassword = (): void => {
@@ -51,17 +53,27 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     }
 
     setIsLoading(true)
-    
+
     try {
       // Use the provided login service
       const user = await loginService(email, password)
       console.log("Login successful:", user)
-      
-      // Navigate to main app on success
-      navigation.navigate("MainApp")
+
+      // Navigate to MainApp and then to Games screen
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: "MainApp",
+            state: {
+              routes: [{ name: "Games" }],
+            },
+          },
+        ],
+      })
     } catch (error) {
       console.error("Login error:", error)
-      
+
       // Show appropriate error message
       setErrorMessage("Credenciales incorrectas. Por favor, verifica tu correo y contraseña.")
       setShowLoginErrorModal(true)
@@ -109,16 +121,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                 <Logo />
 
                 <View style={styles.formContainer}>
-                  <LoginForm 
-                    onLogin={handleLogin}
-                    onForgotPassword={handleForgotPassword}
-                    isLoading={isLoading}
-                  />
+                  <LoginForm onLogin={handleLogin} onForgotPassword={handleForgotPassword} isLoading={isLoading} />
 
-                  <SocialButtons 
-                    onGooglePress={handleGoogleLogin}
-                    onApplePress={handleAppleLogin}
-                  />
+                  <SocialButtons onGooglePress={handleGoogleLogin} onApplePress={handleAppleLogin} />
 
                   <RegisterPrompt onRegisterPress={handleRegister} />
                 </View>
@@ -130,7 +135,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
       <LoginErrorModal
         visible={showLoginErrorModal}
-        onClose={() => setShowLoginErrorModal(true)}
+        onClose={() => setShowLoginErrorModal(false)}
         message={errorMessage}
       />
     </View>
