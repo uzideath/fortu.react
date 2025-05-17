@@ -1,9 +1,10 @@
-import type React from "react"
 import { NavigationContainer } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
 import { StatusBar } from "react-native"
 import { SafeAreaProvider } from "react-native-safe-area-context"
-import { View, Text } from "react-native"
+
+// Importar provider de autenticación
+import { AuthProvider } from "./src/hooks/useAuth"
 
 // Importar pantallas de autenticación
 import SplashScreen from "./src/screens/auth/SplashScreen"
@@ -24,6 +25,12 @@ import SecurityScreen from "./src/screens/settings/SecurityScreen"
 import SettingsScreen from "./src/screens/settings/SettingsScreen"
 import NotificationsScreen from "./src/screens/settings/NotificationsScreen"
 
+// Importar pantallas de juegos
+import GamesHomeScreen from "./src/screens/games/GamesHomeScreen"
+import LotteriesListScreen from "./src/screens/games/LotteriesListScreen"
+import GamesList from "./src/screens/games/GamesList"
+import GroupDrawScreen from "./src/screens/games/GroupDrawScreen"
+
 // Importar tipos
 import type { RootStackParamList, MainStackParamList, GamesStackParamList } from "./src/types"
 
@@ -31,39 +38,20 @@ const Stack = createStackNavigator<RootStackParamList>()
 const MainStack = createStackNavigator<MainStackParamList>()
 const GamesStack = createStackNavigator<GamesStackParamList>()
 
-// Componente placeholder para la pantalla principal de juegos
-const GamesHomeScreen: React.FC = () => {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Pantalla de Juegos</Text>
-    </View>
-  )
-}
-
-// Componente para la navegación de juegos
 const GamesNavigator = () => {
   return (
-    <GamesStack.Navigator
-      initialRouteName="GamesHome"
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
+    <GamesStack.Navigator initialRouteName="GamesHome" screenOptions={{ headerShown: false }}>
       <GamesStack.Screen name="GamesHome" component={GamesHomeScreen} />
-      {/* Aquí se pueden agregar más pantallas de juegos */}
+      <GamesStack.Screen name="LotteriesList" component={LotteriesListScreen} />
+      <GamesStack.Screen name="GamesList" component={GamesList} />
+      <GamesStack.Screen name="GroupDraw" component={GroupDrawScreen} />
     </GamesStack.Navigator>
   )
 }
 
-// Componente para la navegación principal de la app
 const MainAppNavigator = () => {
   return (
-    <MainStack.Navigator
-      initialRouteName="Home"
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
+    <MainStack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
       <MainStack.Screen name="Home" component={HomeScreen} />
       <MainStack.Screen name="Menu" component={MenuScreen} />
       <MainStack.Screen name="AddPaymentMethod" component={AddPaymentMethodScreen} />
@@ -73,31 +61,26 @@ const MainAppNavigator = () => {
       <MainStack.Screen name="Notifications" component={NotificationsScreen} />
       <MainStack.Screen name="Movements" component={MovementsDetailScreen} />
       <MainStack.Screen name="Statistics" component={StatisticsScreen} />
-      {/* Aquí se pueden agregar más pantallas principales */}
       <MainStack.Screen name="Games" component={GamesNavigator} />
     </MainStack.Navigator>
   )
 }
 
-// Componente principal de la aplicación
 const App = () => {
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <StatusBar barStyle="light-content" backgroundColor="#033e93" />
-        <Stack.Navigator
-          initialRouteName="Splash"
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen name="Splash" component={SplashScreen} />
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Register" component={RegisterScreen} />
-          <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-          <Stack.Screen name="MainApp" component={MainAppNavigator} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <AuthProvider>
+        <NavigationContainer>
+          <StatusBar barStyle="light-content" backgroundColor="#033e93" />
+          <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Splash" component={SplashScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Register" component={RegisterScreen} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+            <Stack.Screen name="MainApp" component={MainAppNavigator} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </AuthProvider>
     </SafeAreaProvider>
   )
 }

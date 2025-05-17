@@ -3,26 +3,36 @@
 import type React from "react"
 import { useEffect } from "react"
 import { View, StyleSheet, SafeAreaView, Image, ImageBackground } from "react-native"
+import { useNavigation } from "@react-navigation/native"
 import type { StackNavigationProp } from "@react-navigation/stack"
 import type { RootStackParamList } from "@/types"
 import ColoredLoadingWheel from "@/components/common/ColoredLoadingWheel"
+import { useAuth } from "@/hooks/useAuth"
 
-type SplashScreenNavigationProp = StackNavigationProp<RootStackParamList, "Splash">
+const SplashScreen: React.FC = () => {
+  const { user, isLoading } = useAuth()
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
 
-interface SplashScreenProps {
-  navigation: SplashScreenNavigationProp
-}
-
-const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
   useEffect(() => {
-    // Simulación de carga inicial
-    const timer = setTimeout(() => {
-      // Navegar a la pantalla de login después de 2 segundos
-      navigation.replace("Login")
-    }, 2000)
+    const redirect = () => {
+      if (!isLoading) {
+        if (user) {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "MainApp" }],
+          })
+        } else {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "Login" }],
+          })
+        }
+      }
+    }
 
+    const timer = setTimeout(redirect, 2000)
     return () => clearTimeout(timer)
-  }, [navigation])
+  }, [user, isLoading, navigation])
 
   return (
     <SafeAreaView style={styles.container}>
