@@ -3,47 +3,36 @@
 import type React from "react"
 import { useEffect } from "react"
 import { View, StyleSheet, SafeAreaView, Image, ImageBackground } from "react-native"
+import { useNavigation } from "@react-navigation/native"
 import type { StackNavigationProp } from "@react-navigation/stack"
 import type { RootStackParamList } from "@/types"
 import ColoredLoadingWheel from "@/components/common/ColoredLoadingWheel"
-import { isUserRegistered } from "@/services/userDataService"
+import { useAuth } from "@/hooks/useAuth"
 
-type SplashScreenNavigationProp = StackNavigationProp<RootStackParamList, "Splash">
+const SplashScreen: React.FC = () => {
+  const { user, isLoading } = useAuth()
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
 
-interface SplashScreenProps {
-  navigation: SplashScreenNavigationProp
-}
-
-const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
   useEffect(() => {
-    // Verificar el estado de autenticación después de un breve retraso
-    const checkAuthStatus = async () => {
-      try {
-        // Verificar si el usuario está registrado
-        const isRegistered = await isUserRegistered()
-
-        // Navegar a la pantalla correspondiente
-        if (isRegistered) {
-          // Si el usuario está registrado, navegar a la pantalla principal
-          navigation.navigate("MainApp")
+    const redirect = () => {
+      if (!isLoading) {
+        if (user) {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "MainApp" }],
+          })
         } else {
-          // Si no está registrado, navegar a la pantalla de inicio de sesión
-          navigation.navigate("Login")
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "Login" }],
+          })
         }
-      } catch (error) {
-        console.error("Error al verificar el estado de autenticación:", error)
-        // En caso de error, navegar a la pantalla de inicio de sesión
-        navigation.navigate("Login")
       }
     }
 
-    // Ejecutar la verificación después de 2 segundos para mostrar la pantalla de splash
-    const timer = setTimeout(() => {
-      checkAuthStatus()
-    }, 2000)
-
+    const timer = setTimeout(redirect, 2000)
     return () => clearTimeout(timer)
-  }, [navigation])
+  }, [user, isLoading, navigation])
 
   return (
     <SafeAreaView style={styles.container}>
