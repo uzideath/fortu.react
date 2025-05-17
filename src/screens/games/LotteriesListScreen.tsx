@@ -12,6 +12,7 @@ import {
   StatusBar,
   FlatList,
   Dimensions,
+  Alert,
 } from "react-native"
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 import type { GamesScreenProps, Lottery } from "src/types"
@@ -85,7 +86,14 @@ const LotteriesListScreen: React.FC<GamesScreenProps<"LotteriesList">> = ({ navi
     return (
       <TouchableOpacity
         style={styles.lotteryCard}
-        onPress={() => navigation.navigate("GameDetail", { gameId: item.id })}
+        onPress={() => {
+          // Mostrar un mensaje de que esta funcionalidad está en desarrollo
+          Alert.alert(
+            "Funcionalidad en desarrollo",
+            `Los detalles para ${item.name} estarán disponibles próximamente.`,
+            [{ text: "Entendido", style: "default" }],
+          )
+        }}
       >
         <View style={styles.lotteryLogoContainer}>
           <Image source={getLotteryLogo(item.icon)} style={styles.lotteryLogo} resizeMode="contain" />
