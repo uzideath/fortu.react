@@ -38,15 +38,6 @@ const Stack = createStackNavigator<RootStackParamList>()
 const MainStack = createStackNavigator<MainStackParamList>()
 const GamesStack = createStackNavigator<GamesStackParamList>()
 
-=======
-const GamesHomeScreen: React.FC = () => {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Pantalla de Juegos</Text>
-    </View>
-  )
-}
-
 const GamesNavigator = () => {
   return (
     <GamesStack.Navigator initialRouteName="GamesHome" screenOptions={{ headerShown: false }}>
@@ -60,12 +51,6 @@ const GamesNavigator = () => {
 
 const MainAppNavigator = () => {
   return (
-    <MainStack.Navigator
-      initialRouteName="Games"
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
     <MainStack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
       <MainStack.Screen name="Home" component={HomeScreen} />
       <MainStack.Screen name="Menu" component={MenuScreen} />
