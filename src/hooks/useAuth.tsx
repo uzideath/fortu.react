@@ -8,9 +8,10 @@ import {
 import { jwtDecode } from 'jwt-decode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loginService, logoutService } from '@/services/auth';
+import { resetTo } from '@/lib/navigation';
 
 type UserPayload = {
-  sub: number;
+  sub: string;
   email: string;
   iat: number;
   exp: number;
@@ -32,16 +33,30 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const loadUserFromStorage = async () => {
       const token = await AsyncStorage.getItem('accessToken');
+
       if (token) {
         try {
           const decoded = jwtDecode<UserPayload>(token);
-          setUser(decoded);
+          const isExpired = decoded.exp * 1000 < Date.now();
+
+          if (isExpired) {
+            await AsyncStorage.multiRemove(['accessToken', 'refreshToken']);
+            resetTo('Login');
+          } else {
+            setUser(decoded);
+          }
         } catch (err) {
           console.warn('Token inválido', err);
+          await AsyncStorage.multiRemove(['accessToken', 'refreshToken']);
+          resetTo('Login');
         }
+      } else {
+        resetTo('Login');
       }
+
       setIsLoading(false);
     };
+
     loadUserFromStorage();
   }, []);
 
@@ -51,8 +66,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = async () => {
-    await logoutService();
+    await logoutService(); // solo borra tokens
     setUser(null);
+    resetTo('Login');
   };
 
   return (
