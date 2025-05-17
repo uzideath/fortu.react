@@ -33,7 +33,6 @@ import GroupDrawScreen from "./src/screens/games/GroupDrawScreen"
 
 // Importar tipos
 import type { RootStackParamList, MainStackParamList, GamesStackParamList } from "./src/types"
-import { navigationRef } from "@/lib/navigation"
 
 const Stack = createStackNavigator<RootStackParamList>()
 const MainStack = createStackNavigator<MainStackParamList>()
@@ -52,7 +51,11 @@ const GamesNavigator = () => {
 
 const MainAppNavigator = () => {
   return (
-    <MainStack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+    <MainStack.Navigator
+      // Cambiado de "Home" a "Games" para que inicie en la pantalla de juegos
+      initialRouteName="Games"
+      screenOptions={{ headerShown: false }}
+    >
       <MainStack.Screen name="Home" component={HomeScreen} />
       <MainStack.Screen name="Menu" component={MenuScreen} />
       <MainStack.Screen name="AddPaymentMethod" component={AddPaymentMethodScreen} />
@@ -71,7 +74,7 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <AuthProvider>
-        <NavigationContainer ref={navigationRef}>
+        <NavigationContainer>
           <StatusBar barStyle="light-content" backgroundColor="#033e93" />
           <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Splash" component={SplashScreen} />

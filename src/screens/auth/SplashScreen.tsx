@@ -17,6 +17,7 @@ const SplashScreen: React.FC = () => {
     const redirect = () => {
       if (!isLoading) {
         if (user) {
+          // Simplemente navegamos a MainApp, que ahora mostrará Games como pantalla inicial
           navigation.reset({
             index: 0,
             routes: [{ name: "MainApp" }],
