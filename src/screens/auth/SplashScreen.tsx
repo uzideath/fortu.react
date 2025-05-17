@@ -6,6 +6,7 @@ import { View, StyleSheet, SafeAreaView, Image, ImageBackground } from "react-na
 import type { StackNavigationProp } from "@react-navigation/stack"
 import type { RootStackParamList } from "@/types"
 import ColoredLoadingWheel from "@/components/common/ColoredLoadingWheel"
+import { isUserRegistered } from "@/services/userDataService"
 
 type SplashScreenNavigationProp = StackNavigationProp<RootStackParamList, "Splash">
 
@@ -15,10 +16,30 @@ interface SplashScreenProps {
 
 const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
   useEffect(() => {
-    // Simulación de carga inicial
+    // Verificar el estado de autenticación después de un breve retraso
+    const checkAuthStatus = async () => {
+      try {
+        // Verificar si el usuario está registrado
+        const isRegistered = await isUserRegistered()
+
+        // Navegar a la pantalla correspondiente
+        if (isRegistered) {
+          // Si el usuario está registrado, navegar a la pantalla principal
+          navigation.navigate("MainApp")
+        } else {
+          // Si no está registrado, navegar a la pantalla de inicio de sesión
+          navigation.navigate("Login")
+        }
+      } catch (error) {
+        console.error("Error al verificar el estado de autenticación:", error)
+        // En caso de error, navegar a la pantalla de inicio de sesión
+        navigation.navigate("Login")
+      }
+    }
+
+    // Ejecutar la verificación después de 2 segundos para mostrar la pantalla de splash
     const timer = setTimeout(() => {
-      // Navegar a la pantalla de login después de 2 segundos
-      navigation.replace("Login")
+      checkAuthStatus()
     }, 2000)
 
     return () => clearTimeout(timer)
