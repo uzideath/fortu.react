@@ -1,9 +1,7 @@
-import type React from "react"
 import { NavigationContainer } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
 import { StatusBar } from "react-native"
 import { SafeAreaProvider } from "react-native-safe-area-context"
-import { View, Text } from "react-native"
 
 // Importar pantallas de autenticación
 import SplashScreen from "./src/screens/auth/SplashScreen"
@@ -24,21 +22,18 @@ import SecurityScreen from "./src/screens/settings/SecurityScreen"
 import SettingsScreen from "./src/screens/settings/SettingsScreen"
 import NotificationsScreen from "./src/screens/settings/NotificationsScreen"
 
+// Importar pantallas de juegos
+import GamesHomeScreen from "./src/screens/games/GamesHomeScreen"
+import LotteriesListScreen from "./src/screens/games/LotteriesListScreen"
+import GamesList from "./src/screens/games/GamesList"
+import GroupDrawScreen from "./src/screens/games/GroupDrawScreen"
+
 // Importar tipos
 import type { RootStackParamList, MainStackParamList, GamesStackParamList } from "./src/types"
 
 const Stack = createStackNavigator<RootStackParamList>()
 const MainStack = createStackNavigator<MainStackParamList>()
 const GamesStack = createStackNavigator<GamesStackParamList>()
-
-// Componente placeholder para la pantalla principal de juegos
-const GamesHomeScreen: React.FC = () => {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Pantalla de Juegos</Text>
-    </View>
-  )
-}
 
 // Componente para la navegación de juegos
 const GamesNavigator = () => {
@@ -50,6 +45,9 @@ const GamesNavigator = () => {
       }}
     >
       <GamesStack.Screen name="GamesHome" component={GamesHomeScreen} />
+      <GamesStack.Screen name="LotteriesList" component={LotteriesListScreen} />
+      <GamesStack.Screen name="GamesList" component={GamesList} />
+      <GamesStack.Screen name="GroupDraw" component={GroupDrawScreen} />
       {/* Aquí se pueden agregar más pantallas de juegos */}
     </GamesStack.Navigator>
   )
@@ -59,7 +57,7 @@ const GamesNavigator = () => {
 const MainAppNavigator = () => {
   return (
     <MainStack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Games"
       screenOptions={{
         headerShown: false,
       }}
@@ -73,7 +71,6 @@ const MainAppNavigator = () => {
       <MainStack.Screen name="Notifications" component={NotificationsScreen} />
       <MainStack.Screen name="Movements" component={MovementsDetailScreen} />
       <MainStack.Screen name="Statistics" component={StatisticsScreen} />
-      {/* Aquí se pueden agregar más pantallas principales */}
       <MainStack.Screen name="Games" component={GamesNavigator} />
     </MainStack.Navigator>
   )

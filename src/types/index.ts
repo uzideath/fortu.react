@@ -28,7 +28,6 @@ export type MainStackParamList = {
 export type GamesStackParamList = {
   GamesHome: undefined
   GamesList: undefined
-  GameDetail: { gameId: string }
   PlayGame: { gameId: string }
   LotteriesList: undefined
   BetValue: undefined
